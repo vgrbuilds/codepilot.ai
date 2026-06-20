@@ -6,6 +6,7 @@ import {
   GithubOutlined, 
   ExclamationCircleOutlined 
 } from '@ant-design/icons';
+import { API_BASE } from '../config.js';
 
 const RepositoriesPage = ({ onNavigateToProjects }) => {
   const [repos, setRepos] = useState([]);
@@ -21,7 +22,7 @@ const RepositoriesPage = ({ onNavigateToProjects }) => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:8000/api/repositories', {
+      const res = await fetch(`${API_BASE}/api/repositories`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -52,7 +53,7 @@ const RepositoriesPage = ({ onNavigateToProjects }) => {
   const handleSyncRepository = async (repo) => {
     setSyncingId(repo.githubId);
     try {
-      const res = await fetch('http://localhost:8000/api/projects', {
+      const res = await fetch(`${API_BASE}/api/projects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

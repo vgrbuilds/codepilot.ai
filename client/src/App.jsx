@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import { API_BASE } from './config.js';
 import LandingPage from './pages/LandingPage.jsx';
 import HomePage from './pages/HomePage.jsx';
 import RepositoriesPage from './pages/RepositoriesPage.jsx';
@@ -21,7 +22,7 @@ function App() {
   // Fetch the user profile from backend
   const fetchProfile = async (token) => {
     try {
-      const res = await fetch('http://localhost:8000/api/profile', {
+      const res = await fetch(`${API_BASE}/api/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -46,7 +47,7 @@ function App() {
   // Exchange GitHub temp code for API JWT session token
   const handleOAuthCallback = async (code) => {
     try {
-      const res = await fetch('http://localhost:8000/api/auth/github', {
+      const res = await fetch(`${API_BASE}/api/auth/github`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -105,7 +106,7 @@ function App() {
     if (!token) return { success: false, error: "Authentication token missing." };
 
     try {
-      const res = await fetch('http://localhost:8000/api/profile', {
+      const res = await fetch(`${API_BASE}/api/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +132,7 @@ function App() {
     if (!token) return { success: false, error: "Authentication token missing." };
 
     try {
-      const res = await fetch('http://localhost:8000/api/profile', {
+      const res = await fetch(`${API_BASE}/api/profile`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
