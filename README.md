@@ -18,11 +18,16 @@ Codepilot is a codebase intelligence platform that transforms complex repositori
 
 # Setup guide
 
-1. git clone https://github.com/vgrbuilds/codepilot.ai.git
-2. 
+1. **Clone & Configure**: Clone the repository and copy/populate environment credentials:
+   * Backend: Create `server/.env` matching the schema in the config.
+   * Root: Create a root `.env` file (see `.env.example` for details).
+2. **Run Containers**: Start the multi-container environment (MongoDB, Express server, and React Nginx fronted) using Docker Compose:
+   ```bash
+   docker compose up --build
+   ```
+3. **Explore Dashboard**: Navigate to `http://localhost:5173` in your browser.
 
+# Deployed links
 
-# Deployed link
-
-
-
+* **Frontend App (Vercel)**: [https://codepilot-ai-five.vercel.app](https://codepilot-ai-five.vercel.app)
+* **Backend API (Render)**: [https://codepilot-backend-cpou.onrender.com](https://codepilot-backend-cpou.onrender.com)
