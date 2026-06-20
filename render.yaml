@@ -1,0 +1,27 @@
+services:
+  # Express Backend Web Service
+  - type: web
+    name: codepilot-backend
+    env: docker
+    dockerfilePath: server/Dockerfile
+    dockerContext: server
+    plan: free
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: NODE_ENV
+        value: production
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
+      - key: GITHUB_REDIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: GEMINI_API
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash

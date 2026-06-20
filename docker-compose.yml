@@ -1,0 +1,45 @@
+services:
+  # Database Service (Local Fallback)
+  mongodb:
+    image: mongo:latest
+    container_name: codepilot-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # Express Backend Server Service
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: codepilot-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://mongodb:27017/codepilot
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - GITHUB_REDIRECT_URL=http://localhost:5173
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=7d
+      - GEMINI_API=${GEMINI_API}
+      - GEMINI_MODEL=gemini-2.5-flash
+    depends_on:
+      - mongodb
+
+  # React Frontend Nginx Web Service
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: codepilot-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
