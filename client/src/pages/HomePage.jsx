@@ -5,6 +5,7 @@ import {
   ReloadOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons';
+import { API_BASE } from '../config.js';
 
 // Import modular sub-components
 import ProjectSidebar from '../components/ProjectSidebar.jsx';
@@ -41,7 +42,7 @@ const HomePage = ({ user, onRefreshProfile }) => {
   // Fetch Projects List
   const fetchProjects = async (selectId = null) => {
     try {
-      const res = await fetch('http://localhost:8000/api/projects', {
+      const res = await fetch(`${API_BASE}/api/projects`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -72,7 +73,7 @@ const HomePage = ({ user, onRefreshProfile }) => {
     if (activeProject && (activeProject.ingestionStatus === 'pending' || activeProject.ingestionStatus === 'processing')) {
       interval = setInterval(async () => {
         try {
-          const res = await fetch(`http://localhost:8000/api/projects/${activeProject._id}`, {
+          const res = await fetch(`${API_BASE}/api/projects/${activeProject._id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           const data = await res.json();
@@ -99,7 +100,7 @@ const HomePage = ({ user, onRefreshProfile }) => {
   const fetchChatHistory = async () => {
     if (!activeProject || activeProject.ingestionStatus !== 'completed') return;
     try {
-      const res = await fetch(`http://localhost:8000/api/chat/${activeProject._id}/messages`, {
+      const res = await fetch(`${API_BASE}/api/chat/${activeProject._id}/messages`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -140,7 +141,7 @@ const HomePage = ({ user, onRefreshProfile }) => {
     setSending(true);
 
     try {
-      const res = await fetch(`http://localhost:8000/api/chat/${activeProject._id}/messages`, {
+      const res = await fetch(`${API_BASE}/api/chat/${activeProject._id}/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -169,7 +170,7 @@ const HomePage = ({ user, onRefreshProfile }) => {
   const handleClearChat = async () => {
     if (!activeProject || !window.confirm('Clear all conversation history?')) return;
     try {
-      const res = await fetch(`http://localhost:8000/api/chat/${activeProject._id}/messages`, {
+      const res = await fetch(`${API_BASE}/api/chat/${activeProject._id}/messages`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -188,7 +189,7 @@ const HomePage = ({ user, onRefreshProfile }) => {
     setReviewReport('');
 
     try {
-      const res = await fetch(`http://localhost:8000/api/projects/${activeProject._id}/review`, {
+      const res = await fetch(`${API_BASE}/api/projects/${activeProject._id}/review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -216,7 +217,7 @@ const HomePage = ({ user, onRefreshProfile }) => {
     setDocumentation('');
 
     try {
-      const res = await fetch(`http://localhost:8000/api/projects/${activeProject._id}/docs`, {
+      const res = await fetch(`${API_BASE}/api/projects/${activeProject._id}/docs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -241,7 +242,7 @@ const HomePage = ({ user, onRefreshProfile }) => {
   const handleDeleteProject = async () => {
     if (!activeProject || !window.confirm(`Are you sure you want to disconnect and delete "${activeProject.github.name}"?`)) return;
     try {
-      const res = await fetch(`http://localhost:8000/api/projects/${activeProject._id}`, {
+      const res = await fetch(`${API_BASE}/api/projects/${activeProject._id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
